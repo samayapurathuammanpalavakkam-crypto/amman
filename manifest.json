@@ -1,9 +1,9 @@
 {
   "name": "Shree Samayapurathu mariyamman",
   "short_name": "Samayapuram",
-  "id": "/sdsss/",
+  "id": "/amman/",
   "start_url": "/amman/index.html",
-  "scope": "/sdsss/",
+  "scope": "/amman/",
   "display": "fullscreen",
   "orientation": "portrait",
   "background_color": "#ffffff",
@@ -12,16 +12,17 @@
 
   "icons": [
     {
-      "src": "/sdsss/icon-192.jpg",
+      "src": "/amman/icon-192.png",
       "sizes": "192x192",
-      "type": "image/jpg"
+      "type": "image/png"
     },
     {
-      "src": "/sdsss/icon-512.jpg",
+      "src": "/amman/icon-512.png",
       "sizes": "512x512",
-      "type": "image/jpg"
+      "type": "image/png"
     }
   ]
 }
+
 
 
