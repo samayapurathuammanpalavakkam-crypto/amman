@@ -247,7 +247,7 @@ th { background: rgba(250,250,250,0.6); font-weight:700; }
     <input id="mobile" type="text" placeholder="Enter mobile number">
 
     <label>Payment Type</label>
-    <select id="vPaymentType">
+    <select id="PaymentType">
     <option>Select</option>
     <option>GPay</option>
     <option>Cash</option>
@@ -950,7 +950,7 @@ function selectSearchRecord(r){
     document.getElementById('balance').value = (r.balance != null ? r.balance : '');
     document.getElementById('date').value = r.date || '';
     document.getElementById('mobile').value = r.mobile || '';
-    document.querySelectorAll('input[name="payment"]').forEach(i=>{ i.checked = (i.value === r.payment); });
+    document.getElementById("PaymentType").value = r.payment || "Select";
     document.getElementById('receiver').value = r.receiver || '';
   } else if(currentUpdateType === 'grocery'){
     currentGroceryUpdateRow = r.rowIndex;
@@ -998,7 +998,7 @@ function selectSearchRecord(r){
     document.getElementById('vReceiver').value = r.receiver || '';
     document.getElementById('vDate').value = r.date || '';
     document.getElementById('vMobile').value = r.mobile || '';
-    document.querySelectorAll('input[name="vPayment"]').forEach(i=>{ i.checked = (i.value === r.payment); });
+    document.getElementById("vPaymentType").value = r.payment || "Select";
   }
   closeSearchModal();
 }
@@ -1165,7 +1165,7 @@ submitBtn.addEventListener('click', async () => {
   const amount = document.getElementById('amount').value;
   const balance = document.getElementById('balance').value;
   const dateVal = document.getElementById('date').value;
-  const payment = document.getElementById("vPaymentType").value;
+  const payment = document.getElementById("PaymentType").value;
   const receiver = document.getElementById('receiver').value;
   const mobile = document.getElementById('mobile').value.trim();
 
@@ -1283,7 +1283,7 @@ function clearAmountForm() {
     document.getElementById('balance').value='';
     document.getElementById('date').value='';
     document.getElementById('mobile').value='';
-    document.querySelectorAll('input[name="payment"]').forEach(i=>i.checked=false);
+    document.getElementById("PaymentType").value = "Select";
 }
 
 
@@ -1419,7 +1419,7 @@ submitVilakuBtn.addEventListener('click', async ()=>{
   const door = document.getElementById('vDoor').value.trim();
   const street = document.getElementById('vStreet').value;
   const amount = document.getElementById('vAmount').value;
-  const paymentEl = document.querySelector('input[name="vPayment"]:checked');
+  const payment = document.getElementById("vPaymentType").value;
   const pending = document.getElementById('vPending').value;
   const receiver = document.getElementById('vReceiver').value;
   const dateVal = document.getElementById('vDate').value;
@@ -1497,7 +1497,7 @@ submitVilakuBtn.addEventListener('click', async ()=>{
       document.getElementById('vDoor').value = '';
       document.getElementById('vDate').value = '';
       document.getElementById('vMobile').value = '';
-      document.querySelectorAll('input[name="vPayment"]').forEach(i => i.checked = false);
+      document.getElementById("vPaymentType").value = "Select";
 
       return;
     }
@@ -1529,7 +1529,7 @@ submitVilakuBtn.addEventListener('click', async ()=>{
       document.getElementById('vDoor').value = '';
       document.getElementById('vDate').value = '';
       document.getElementById('vMobile').value = '';
-      document.querySelectorAll('input[name="vPayment"]').forEach(i => i.checked = false);
+      document.getElementById("vPaymentType").value = "Select";
 
       return;
     }
