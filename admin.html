@@ -13,7 +13,7 @@ html, body {
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
-    background-image: url('amman.jpg');
+    background-image: url('amman.jpeg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -145,7 +145,8 @@ a:hover {
         </div>
 
         <h3 style="margin:8px 0;">Create / Edit User</h3>
-
+        <label for="uFullName">Name</label>
+        <input id="uFullName" type="text" placeholder="Full name">
         <label for="uName">Username</label>
         <input id="uName" type="text" placeholder="Unique username">
 
@@ -157,6 +158,7 @@ a:hover {
             <label class="perm-item"><input type="checkbox" id="pAmount"> Amount</label>
             <label class="perm-item"><input type="checkbox" id="pGrocery"> Groceries</label>
             <label class="perm-item"><input type="checkbox" id="pVilaku"> Paal kudan</label>
+            <label class="perm-item"><input type="checkbox" id="pMulaipari"> Mulaipari</label>
         </div>
 
         <label>Actions</label>
@@ -186,10 +188,12 @@ a:hover {
             <table id="userTable">
                 <thead>
                     <tr>
+                        <th>Name</th>
                         <th>User</th>
                         <th>Amount</th>
                         <th>Groceries</th>
                         <th>Paal kudam</th>
+                        <th>Mulaipari</th>
                         <th>Submit</th>
                         <th>Update</th>
                         <th>Reset</th>
@@ -205,7 +209,7 @@ a:hover {
 </div>
 
 <script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbwbRfIiu_H1JXo5iAjPb6fy-3mlDd7WWUKzgoM2UOMKm-7g7ZyGlzgmxNoYo0XIfZKA/exec";
+const scriptURL = "https://script.google.com/macros/s/AKfycbxOBeNQsNAI5RfQiXBpJTkLx5zqx4gSq4Ub4MAQkbhAxCUF34MpA_S_9DdjNwwjVhyd/exec";
 
 let currentAdminUser = null;
 let allUsers = [];
@@ -214,12 +218,13 @@ let allUsers = [];
 const adminUserInfo = document.getElementById('adminUserInfo');
 const adminStatus = document.getElementById('adminStatus');
 const userTableBody = document.querySelector('#userTable tbody');
-
+const uFullName = document.getElementById('uFullName');
 const uName = document.getElementById('uName');
 const uPass = document.getElementById('uPass');
 const pAmount = document.getElementById('pAmount');
 const pGrocery = document.getElementById('pGrocery');
 const pVilaku = document.getElementById('pVilaku');
+const pMulaipari = document.getElementById('pMulaipari');
 const pSubmit = document.getElementById('pSubmit');
 const pUpdate = document.getElementById('pUpdate');
 const pReset = document.getElementById('pReset');
@@ -274,10 +279,12 @@ function renderUserTable() {
         const tr = document.createElement('tr');
         tr.style.cursor = 'pointer';
         tr.innerHTML = `
+            <td>${u.name || ''}</td>
             <td>${u.username || ''}</td>
             <td>${badge(u.canAmount)}</td>
             <td>${badge(u.canGroceries)}</td>
             <td>${badge(u.canVilaku)}</td>
+            <td>${badge(u.canMulaipari)}</td>
             <td>${badge(u.canSubmit)}</td>
             <td>${badge(u.canUpdate)}</td>
             <td>${badge(u.canReset)}</td>
@@ -296,11 +303,13 @@ function badge(val) {
 }
 
 function fillFormFromUser(u) {
+    uFullName.value = u.name || '';
     uName.value = u.username || '';
     uPass.value = ''; // don't expose existing password
     pAmount.checked = !!u.canAmount;
     pGrocery.checked = !!u.canGroceries;
     pVilaku.checked = !!u.canVilaku;
+    pMulaipari.checked = !!u.canMulaipari;
     pSubmit.checked = !!u.canSubmit;
     pUpdate.checked = !!u.canUpdate;
     pReset.checked = !!u.canReset;
@@ -316,6 +325,7 @@ function clearForm() {
     pAmount.checked = false;
     pGrocery.checked = false;
     pVilaku.checked = false;
+    pMulaipari.checked = false;
     pSubmit.checked = true;
     pUpdate.checked = true;
     pReset.checked = true;
@@ -336,11 +346,13 @@ async function saveUser() {
 
     const payload = {
         type: 'save-user',
+        name: uFullName.value.trim(),
         username: username,
         password: password, // may be empty (handled in script)
         canAmount: pAmount.checked,
         canGroceries: pGrocery.checked,
         canVilaku: pVilaku.checked,
+        canMulaipari: pMulaipari.checked,
         canSubmit: pSubmit.checked,
         canUpdate: pUpdate.checked,
         canReset: pReset.checked,
